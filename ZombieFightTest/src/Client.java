@@ -8,9 +8,9 @@ public class Client extends ThreadObject {
 	public static void main(String[] args) {
 		try {
 			Client client = new Client();
-			Thread.sleep(3000);
+			//Thread.sleep(3000);
 
-			client.interrupt();
+			//client.interrupt();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -41,9 +41,21 @@ public class Client extends ThreadObject {
 
 		this.setThread(this);
 		this.start();
+		
+		Thread.sleep(1000);
+		this.socket.getOutputStream().write("LOGIN tempUser50 9u83sw\r\n".getBytes());
+		System.out.println("LOGIN tempUser50 9u83sw\r\n");
+		
+		Thread.sleep(1000);
+		
+		this.socket.getOutputStream().write("DOWNLOAD MAP map_blue\r\n".getBytes());
+		System.out.println("DOWNLOAD MAP map_blue");
+		
+		Thread.sleep(5000);
+		
+		this.socket.getOutputStream().write("LIST USERS\r\n".getBytes());
+		System.out.println("LIST USERS");
 	}
-
-	LinkedList<Socket> connections = new LinkedList<Socket>();
 	public ByteArrayOutputStream output;
 
 	public void run() {
