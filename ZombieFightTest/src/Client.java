@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -36,19 +37,22 @@ public class Client extends ThreadObject {
 		} else {
 			setInstance(this);
 		}
-		this.socket = new Socket("localhost", 12345);
+		this.socket = new Socket("se1.cs.uni-kassel.de", 5000);
 
 		this.setThread(this);
 		this.start();
 	}
 
 	LinkedList<Socket> connections = new LinkedList<Socket>();
+	public ByteArrayOutputStream output;
 
 	public void run() {
+		output = new ByteArrayOutputStream();
 		while (!Thread.interrupted()) {
 			try {
 				if (this.socket.getInputStream().available() > 0) {
-					System.out.println("INPUT!");
+					output.write(this.socket.getInputStream().read());
+					Operator.handle(output.toByteArray());
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
